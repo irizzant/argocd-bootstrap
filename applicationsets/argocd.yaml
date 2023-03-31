@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - clusterName: bootstrap
+        clusterUrl: https://kubernetes.default.svc
+  template:
+    metadata:
+      name: '{{clusterName}}-argocd'
+    spec:
+      project: argocd
+      source:
+        repoURL: https://github.com/irizzant/argocd-bootstrap.git
+        targetRevision: HEAD
+        path: "argocd/overlays/{{clusterName}}"
+      destination:
+        server: '{{clusterUrl}}'
+        namespace: argocd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        

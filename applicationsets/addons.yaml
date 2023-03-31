@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-addons
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/irizzant/argocd-bootstrap.git
+      revision: HEAD
+      directories:
+      - path: addons/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: addons
+      source:
+        repoURL: https://github.com/irizzant/argocd-bootstrap.git
+        targetRevision: HEAD
+        path: "addons/{{path.basename}}"
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - PruneLast=true

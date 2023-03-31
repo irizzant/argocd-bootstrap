@@ -1,0 +1,11 @@
+namespace: argocd
+
+bases:
+- ../../base
+
+resources:
+- argocd-project.yaml
+- addons-project.yaml
+
+patchesStrategicMerge:
+- configmap.yaml
