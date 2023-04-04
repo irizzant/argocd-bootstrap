@@ -2,3 +2,5 @@ controller:
   hostNetwork: true
   service:
     type: ClusterIP
+  extraArgs:
+    enable-ssl-passthrough: ""
