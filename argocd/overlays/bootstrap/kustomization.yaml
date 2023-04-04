@@ -8,6 +8,7 @@ resources:
 - addons-project.yaml
 - addons.yaml
 - argocd.yaml
+- ingress.yaml
 
 patchesStrategicMerge:
 - configmap.yaml
